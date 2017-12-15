@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>[%-5level][%d{yyyy-MM-dd HH:mm:ss}][%F:%L] - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="afileAppender" class="ch.qos.logback.core.FileAppender">
+		<file>E/filea.log</file>
+		<encoder><!-- 必须指定，否则不会往文件输出内容 -->
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
+			</pattern>
+		</encoder>
+		<append>true</append>
+		<prudent>false</prudent>
+	</appender>
+
+	<appender name="bfileAppender" class="ch.qos.logback.core.FileAppender">
+		<file>E/fileb.log</file>
+		<encoder><!-- 必须指定，否则不会往文件输出内容 -->
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
+			</pattern>
+		</encoder>
+		<append>true</append>
+		<prudent>false</prudent>
+	</appender>
+
+	<appender name="bfileAppender" class="ch.qos.logback.core.FileAppender">
+		<file>E/fileb.log</file>
+		<encoder><!-- 必须指定，否则不会往文件输出内容 -->
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
+			</pattern>
+		</encoder>
+		<append>true</append>
+		<prudent>false</prudent>
+	</appender>
+
+	<!-- 滚动日志，一天生成一个日志文件 -->
+	<appender name="rollingAppender"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>E/filec.log</file><!-- 如果下面又要zip这个配置就要有，如果不用zip这个配置可以注解掉 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>E/filec.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%msg%n</pattern>
+		</encoder>
+		<append>true</append>
+		<prudent>false</prudent>
+	</appender>
+	<!-- <appender name="categoryAppender" class="ch.qos.logback.core.rolling.RollingFileAppender"> 
+		<filter class="ch.qos.logback.classic.filter.LevelFilter"> <level>INFO</level> 
+		<onMatch>ACCEPT</onMatch> <onMismatch>DENY</onMismatch> </filter> <file>${log.path}/category.log</file> 
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy"> 
+		<fileNamePattern>${log.path}/category_%i.log</fileNamePattern> <minIndex>1</minIndex> 
+		<maxIndex>13</maxIndex> </rollingPolicy> <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy"> 
+		<maxFileSize>4MB</maxFileSize> </triggeringPolicy> <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder"> 
+		<pattern>%msg%n</pattern> </encoder> </appender> <appender name="productAppender" 
+		class="ch.qos.logback.core.rolling.RollingFileAppender"> <filter class="ch.qos.logback.classic.filter.LevelFilter"> 
+		<level>ERROR</level> <onMatch>DENY</onMatch> <onMismatch>ACCEPT</onMismatch> 
+		</filter> <file>${log.path}/product.log</file> <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> 
+		<fileNamePattern>${log.path}/product_%i.log</fileNamePattern> <maxHistory>90</maxHistory> 
+		<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP"> 
+		<maxFileSize>200MB</maxFileSize> </timeBasedFileNamingAndTriggeringPolicy> 
+		</rollingPolicy> <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder"> 
+		<pattern>%msg%n</pattern> </encoder> </appender> <logger name="categoryInfo" 
+		level="info" additivity="false"> <appender-ref ref="categoryAppender" /> 
+		</logger> <logger name="productInfo" level="info" additivity="false"> <appender-ref 
+		ref="productAppender" /> </logger> -->
+
+	<logger name="com.xinwei.a" level="info">
+		<appender-ref ref="afileAppender" />
+	</logger>
+
+	<logger name="com.xinwei.b">
+		<appender-ref ref="bfileAppender" />
+	</logger>
+
+	<logger name="com.xinwei.c" additivity="false">
+		<appender-ref ref="rollingAppender" />
+	</logger>
+
+	<root level="info">
+		<appender-ref ref="stdout" />
+	</root>
+</configuration>
